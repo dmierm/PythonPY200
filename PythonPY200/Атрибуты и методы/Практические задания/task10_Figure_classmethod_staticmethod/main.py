@@ -1,6 +1,6 @@
 class TriangleCalculator:
     """ Класс-калькулятор площадей треугольников. """
-
+    @classmethod
     def area(self, *args):
         """
         Метод, который считает площадь по разным формулам,
@@ -10,7 +10,7 @@ class TriangleCalculator:
             self.area_height(*args)
         if len(args) == 3:
             self.area_by_angle(*args)
-
+    @staticmethod
     def area_by_angle(self, a, b, angle):
         """ Формула площади по двум сторонам и углу между ними. """
         ...

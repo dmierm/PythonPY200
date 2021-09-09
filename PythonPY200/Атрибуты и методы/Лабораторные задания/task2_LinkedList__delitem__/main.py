@@ -68,6 +68,7 @@ class LinkedList:
     def __delitem__(self, index: int):
         ...  # TODO проверка индекса
 
+
         ...  # TODO алгоритм удаления
 
     def to_list(self) -> list:
