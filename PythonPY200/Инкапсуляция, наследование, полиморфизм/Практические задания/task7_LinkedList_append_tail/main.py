@@ -9,6 +9,7 @@ class LinkedList:
         self.len = 0
         self.head: Optional[Node] = None
         ...  # TODO добавить атрибут tail
+        self.tail: Optional[Node] = None
 
         if data is not None:
             for value in data:
@@ -21,10 +22,11 @@ class LinkedList:
         if self.head is None:
             self.head = self.tail = append_node
         else:
-            last_index = self.len - 1  # TODO Переделать через атрибут tail
-            last_node = self.step_by_step_on_nodes(last_index)
-
-            self.linked_nodes(last_node, append_node)
+            #last_index = self.len - 1  # TODO Переделать через атрибут tail
+            #last_node = self.step_by_step_on_nodes(last_index)
+            self.linked_nodes(self.tail, append_node)
+            self.tail = append_node
+            #self.linked_nodes(last_node, append_node)
 
         self.len += 1
 
@@ -50,7 +52,7 @@ class LinkedList:
         :param left_node: Левый или предыдущий узел
         :param right_node: Правый или следующий узел
         """
-        left_node.set_next(right_node)  # TODO next теперь свойство имеет setter, используйте это
+        left_node.next = right_node  # TODO next теперь свойство имеет setter, используйте это
 
     def __getitem__(self, index: int) -> Any:
         """ Метод возвращает значение узла по указанному индексу. """

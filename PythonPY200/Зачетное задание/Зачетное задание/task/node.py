@@ -12,9 +12,7 @@ class Node:
         """
         self.value = value
 
-        # TODO заменить на вызов setter
-        self.next = next_
- #       self.set_next(next_)
+        self.next = next_  # вызовется setter
 
     def __repr__(self) -> str:
         return f"Node({self.value}, {None})" if self.next is None else f"Node({self.value}, Node({self.next}))"
@@ -28,20 +26,30 @@ class Node:
 
     @property
     def next(self):
-         return self.__next
+        return self._next
 
-    # TODO заменить на getter и setter
     @next.setter
-    def next(self, next_: Optional["Node"] = None) -> None:
-         print("Вызван setter")
-         self.is_valid(next_)
-         self.__next = next_
+    def next(self, next_: Optional["Node"]):
+        self.is_valid(next_)
+        self._next = next_
 
 
-if __name__ == "__main__":
-    first_node = Node(1)  # отработал setter в init
-    second_node = Node(2)  # отработал setter в init
+class DoubleLinkedNode(Node):
+    def __init__(self, value: Any, prev: Optional["Node"] = None, next_: Optional["Node"] = None):
+        super().__init__(value, next_)
+        self.prev = prev
 
-    first_node.next = second_node
+    @property
+    def prev(self):
+        return self._prev
 
-    print(repr(first_node), repr(first_node.next))
+    @prev.setter
+    def prev(self, prev: Optional["Node"]):
+        self.is_valid(prev)
+        self._prev = prev
+
+    def __repr__(self) -> str:
+        next_prev = None if self.prev is None else f"DoubleLinkedNode({self.prev})"
+        next_repr = None if self.next is None else f"DoubleLinkedNode({self.next})"  # todo make all
+
+        return f"DoubleLinkedNode({self.value}, {next_prev}, {next_repr})"
