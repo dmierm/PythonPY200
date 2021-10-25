@@ -1,10 +1,11 @@
 from collections.abc import MutableSequence
 from typing import Any, Iterable, Optional, Iterator
-from node import Node
-from node import DoubleLinkedNode
+from node import Node, DoubleLinkedNode
 
 
 class LinkedList(MutableSequence):
+    CLASS_NODE = Node
+
     def __init__(self, data: Iterable = None):
         """Конструктор связного списка"""
         self.len = 0
@@ -15,11 +16,9 @@ class LinkedList(MutableSequence):
             for value in data:
                 self.append(value)
 
-    # def __init__(self):
-    #     self._inner_list = list()
     def append(self, value: Any):
         """ Добавление элемента в конец связного списка. """
-        append_node = Node(value)
+        append_node = self.CLASS_NODE(value)
 
         if self.head is None:
             self.head = self.tail = append_node
@@ -85,11 +84,14 @@ class LinkedList(MutableSequence):
 
         self.len -= 1
 
+        print(self.head)
+        print(self.head.next.prev)
+
     def insert(self, index, value):
         if not isinstance(index, int):
             raise TypeError()
 
-        insert_node = Node(value)
+        insert_node = self.CLASS_NODE(value)
 
         if index == 0:
             insert_node.next = self.head
@@ -116,40 +118,28 @@ class LinkedList(MutableSequence):
         return f"{self.to_list()}"
 
     def __len__(self):
-        return len(self)
+        return self.len
 
 
 class DoubleLinkedList(LinkedList):
+    CLASS_NODE = DoubleLinkedNode
+
     @staticmethod
     def linked_nodes(left_node: DoubleLinkedNode, right_node: Optional[DoubleLinkedNode] = None) -> None:
         left_node.next = right_node
         right_node.prev = left_node
 
-    def append(self, value: Any):
-        """ Добавление элемента в конец связного списка. """
-        append_node = DoubleLinkedNode(value)
-
-        if self.head is None:
-            self.head = self.tail = append_node
-        else:
-            self.linked_nodes(self.tail, append_node)
-            self.tail = append_node
-
-        self.len += 1
-
 
 if __name__ == "__main__":
     ll = DoubleLinkedList([1, 2, 3, 4, 5])
 
-    #    ll.__len__()
-
     print(ll)
     ll.append(7)
     print(ll)
-    ll.append(8)
+    ll.append('foo')
     print(ll)
 
-    ll.insert(2, 8)
+    ll.insert(3, 8)
     print(ll)
-    ll.__delitem__(3)
+    ll.__delitem__(0)
     print(ll)
